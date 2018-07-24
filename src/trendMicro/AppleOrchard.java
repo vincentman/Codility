@@ -13,6 +13,19 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class AppleOrchard {
+    /**
+     * Trees are in row. Alice and Bob need to get apples on consecutive trees.
+     * Don't care time and space complexity
+     * 
+     * @param A
+     *            Array length means the number of trees. Every element means
+     *            the number of apples.
+     * @param K
+     *            The number of trees where Alice get apples.
+     * @param L
+     *            The number of trees where Bob get apples.
+     * @return Max number of apples Alice and Bob get.
+     */
     public int solution(int[] A, int K, int L) {
         int inputLength = A.length;
         List<Integer> consecutiveIndexList = new ArrayList<Integer>();

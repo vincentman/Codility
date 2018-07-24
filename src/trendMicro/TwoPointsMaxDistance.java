@@ -11,10 +11,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 
+/**
+ * Don't care time and space complexity
+ * 
+ * Has two points in one two dimension coordinate, compute max square distance
+ * (x1 - x2)^2 + (y1 - y2)^2
+ */
 public class TwoPointsMaxDistance {
     public int solution(int A, int B, int C, int D) {
         // write your code in Java SE 8
@@ -54,5 +61,23 @@ public class TwoPointsMaxDistance {
             }
         }
         return Collections.max(distances).intValue();
+    }
+
+    private List<List<List<Integer>>> getCombinations(int A, int B, int C,
+            int D) {
+        Set<List<List<Integer>>> twoPointSet = new HashSet<List<List<Integer>>>();
+        // part 1
+        List<List<Integer>> twoPoint = new ArrayList<List<Integer>>();
+        List<Integer> point = new ArrayList<Integer>();
+        point.add(A);
+        point.add(B);
+        twoPoint.add(point);
+        point = new ArrayList<Integer>();
+        point.add(C);
+        point.add(D);
+        twoPoint.add(point);
+        twoPointSet.add(twoPoint);
+
+        return new ArrayList<List<List<Integer>>>(twoPointSet);
     }
 }
