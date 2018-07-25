@@ -24,60 +24,59 @@ import com.google.common.collect.Sets;
  */
 public class TwoPointsMaxDistance {
     public int solution(int A, int B, int C, int D) {
-        // write your code in Java SE 8
-        List<Integer> inputList = Lists.newArrayList(A, B, C, D);
-        List<Integer> combinationAB = Lists.newArrayList(A, B);
-        List<Integer> combinationBA = Lists.newArrayList(B, A);
-        List<Integer> combinationAC = Lists.newArrayList(A, C);
-        List<Integer> combinationCA = Lists.newArrayList(C, A);
-        List<Integer> combinationAD = Lists.newArrayList(A, D);
-        List<Integer> combinationDA = Lists.newArrayList(D, A);
-        List<Integer> combinationBC = Lists.newArrayList(B, C);
-        List<Integer> combinationCB = Lists.newArrayList(C, B);
-        List<Integer> combinationBD = Lists.newArrayList(B, D);
-        List<Integer> combinationDB = Lists.newArrayList(D, B);
-        List<Integer> combinationCD = Lists.newArrayList(C, D);
-        List<Integer> combinationDC = Lists.newArrayList(D, C);
-
-        HashSet<List<Integer>> combinationSet = Sets.newHashSet(combinationAB,
-                combinationBA, combinationAC, combinationCA, combinationAD,
-                combinationDA, combinationBC, combinationCB, combinationBD,
-                combinationDB, combinationCD, combinationDC);
-        List<List<Integer>> combinationList = new ArrayList<>(combinationSet);
+        List<List<List<Integer>>> twoPointCombinations = getTwoPointCombinations(A, B, C, D);
 
         List<Integer> distances = Lists.newArrayList();
-        for (int i = 0; i < combinationList.size() - 1; i++) {
-            for (int j = i + 1; j <= combinationList.size() - 1; j++) {
-                List<Integer> a = combinationList.get(i);
-                List<Integer> b = combinationList.get(j);
-                int square1 = (int) Math
-                        .pow(a.get(0).intValue() - b.get(0).intValue(), 2);
-                int square2 = (int) Math
-                        .pow(a.get(1).intValue() - b.get(1).intValue(), 2);
-                distances.add(square1 + square2);
-                System.out.println(String.format(
-                        "a1=%d,b1=%d,a2=%d,b2=%d,sum=%d", a.get(0), b.get(0),
-                        a.get(1), b.get(1), square1 + square2));
-            }
+        for (List<List<Integer>> twoPoint : twoPointCombinations) {
+            List<Integer> point1 = twoPoint.get(0);
+            List<Integer> point2 = twoPoint.get(1);
+            final Integer x1 = point1.get(0);
+            final Integer x2 = point2.get(0);
+            final Integer y1 = point1.get(1);
+            final Integer y2 = point2.get(1);
+            int square1 = (int) Math
+                    .pow(x1.intValue() - x2.intValue(), 2);
+            int square2 = (int) Math
+                    .pow(y1.intValue() - y2.intValue(), 2);
+            distances.add(square1 + square2);
         }
+        
         return Collections.max(distances).intValue();
     }
 
-    private List<List<List<Integer>>> getCombinations(int A, int B, int C,
+    List<List<List<Integer>>> getTwoPointCombinations(int A, int B, int C,
             int D) {
         Set<List<List<Integer>>> twoPointSet = new HashSet<List<List<Integer>>>();
-        // part 1
-        List<List<Integer>> twoPoint = new ArrayList<List<Integer>>();
-        List<Integer> point = new ArrayList<Integer>();
-        point.add(A);
-        point.add(B);
-        twoPoint.add(point);
-        point = new ArrayList<Integer>();
-        point.add(C);
-        point.add(D);
-        twoPoint.add(point);
-        twoPointSet.add(twoPoint);
+        // two point (x1,y1) and (x2,y2), combinations: (A,B) (C,D)
+        twoPointSet.add(getTwoPoint(A, B, C, D));
+        twoPointSet.add(getTwoPoint(A, B, D, C));
+        twoPointSet.add(getTwoPoint(B, A, C, D));
+        twoPointSet.add(getTwoPoint(B, A, D, C));
+        // two point (x1,y1) and (x2,y2), combinations: (A,C) (B,D)
+        twoPointSet.add(getTwoPoint(A, C, B, D));
+        twoPointSet.add(getTwoPoint(A, C, D, B));
+        twoPointSet.add(getTwoPoint(C, A, B, D));
+        twoPointSet.add(getTwoPoint(C, A, D, B));
+        // two point (x1,y1) and (x2,y2), combinations: (A,D) (B,C)
+        twoPointSet.add(getTwoPoint(A, D, B, C));
+        twoPointSet.add(getTwoPoint(A, D, C, B));
+        twoPointSet.add(getTwoPoint(D, A, B, C));
+        twoPointSet.add(getTwoPoint(D, A, C, B));
 
         return new ArrayList<List<List<Integer>>>(twoPointSet);
+    }
+
+    private List<List<Integer>> getTwoPoint(int x1, int y1, int x2, int y2) {
+        List<List<Integer>> twoPoint = new ArrayList<List<Integer>>();
+        List<Integer> point = new ArrayList<Integer>();
+        point.add(x1);
+        point.add(y1);
+        twoPoint.add(point);
+        point = new ArrayList<Integer>();
+        point.add(x2);
+        point.add(y2);
+        twoPoint.add(point);
+
+        return twoPoint;
     }
 }
